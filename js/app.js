@@ -47,12 +47,9 @@ function click(card){
   card.addEventListener('click' , function(){
     /*
     * At the first click, the condition will be true,
-    * and our code below will get executed!
-    *
     * We will call our `startTimer` function,
     * Then, set the `isFirstClick` to `false`, so in the next click,
-    * it will be `if(false)` and nothing will happen, as we don't have an `else`!
-    *
+    * it will be `if(false)` and nothing will happen, as we don't have an `else`
     * THAT'S EXACTLY what we want!
     */
     if(isFirstClick) {
@@ -200,12 +197,8 @@ timerContainer.innerHTML = totalSeconds + 's';
 
 /*
  * We call this function to start our function,
- * the totalSeconds will be increased
- * by 1 after 1000ms (1 second!)
- *
  * HINT: We need to call this function ONCE, and the best time to call it
  * is when the user click on a card (The first card!)
- * This means that our user is start playing now! ;)
  */
  function startTimer() {
     liveTimer = setInterval(function() {
