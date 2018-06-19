@@ -1,6 +1,8 @@
 const array = ["fa fa-diamond","fa fa-paper-plane-o","fa fa-anchor","fa fa-bolt","fa fa-cube","fa fa-leaf","fa fa-bicycle","fa fa-bomb"];
 
-var arr2 = array.concat(array);
+var shuffledCards = array.concat(array);
+
+var starsNumber ;
 
 function shuffle(a) {
     var j, x, i;
@@ -21,10 +23,10 @@ let matchedCards = [];
 * Initialize the Game.
 */
 function init() {
-  for (let i = 0 ; i <arr2.length ; i++){
+  for (let i = 0 ; i <shuffledCards.length ; i++){
     const card = document.createElement("li");
     card.classList.add("card");
-    card.innerHTML = `<i class="${arr2[i]}"></i>`;
+    card.innerHTML = `<i class="${shuffledCards[i]}"></i>`;
     cardsContainer.appendChild(card);
 
     //Add Click event to each Card
@@ -38,10 +40,10 @@ function init() {
 
 
 // First Click Indicator
+
 let isFirstClick = true;
 
 function click(card){
-
   // card click Event
 
   card.addEventListener('click' , function(){
@@ -101,26 +103,6 @@ function compare(currentCard, prevCard){
   addMoves();
 }
 
-/*
-*Check if the Game is Over
-*/
-
-function isOver(){
-    setTimeout(function(){
-      if( matchedCards.length === arr2.length){
-        // Stop our timer
-        stopTimer();
-        // popup Window
-        swal({
-          title: "Good Job! You Made "+document.querySelector('span').innerHTML+" Moves To Complete It",
-          text: " And you took "+document.querySelector('.timer').innerHTML+ " of Time",
-          icon: "success",
-          button: "Try Again!",
-        });
-      }
-    },300)
-  };
-
 
 /*
 * Restart Button to reset
@@ -128,22 +110,22 @@ function isOver(){
 const restartBtn = document.querySelector(".restart");
 restartBtn.addEventListener('click',function(){
   // Delete all cards.
-  cardsContainer.innerHTML="";
-  // initialize from the begenining.
-  init();
-  // Reset Variables
-  shuffle(arr2);
-  matchedCards=[];
-  moves = 0;
-  movesContainer.innerHTML = moves;
-  rating();
+  // cardsContainer.innerHTML="";
+  // // initialize from the begenining.
+  // init();
+  // openCards = [];
+  // // Reset Variables
+  // shuffle(shuffledCards);
+  // matchedCards=[];
+  // moves = 0;
+  // movesContainer.innerHTML = moves;
+  // rating();
   reset();
 });
 
 /*
 * Rating Section
 */
-
 const starsContainer = document.querySelector(".stars");
 const star = `<li><i class="fa fa-star"></i></li>`;
 starsContainer.innerHTML = star + star + star;
@@ -151,23 +133,45 @@ starsContainer.innerHTML = star + star + star;
 function rating(){
   switch (moves) {
 
-    case 0 :
+    case 1 :
     starsContainer.innerHTML = star + star + star;
+    starsNumber = 3;
     break;
 
     case 20:
-      starsContainer.innerHTML = star + star
+      starsContainer.innerHTML = star + star;
+      starsNumber = 2;
       break;
 
     case 26:
-      starsContainer.innerHTML = star
-      break;
-
-    case  34:
-    starsContainer.innerHTML = "";
+      starsContainer.innerHTML = star;
+      starsNumber = 1;
   }
 };
 
+/*
+*Check if the Game is Over
+*/
+
+function isOver(){
+    setTimeout(function(){
+      if( matchedCards.length === shuffledCards.length){
+        // Stop our timer
+        stopTimer();
+        // popup Window
+        swal({
+          title: "Good Job! You Made "+document.querySelector('span').innerHTML+" Moves To Complete the game. "+ "you got "+starsNumber+" star",
+          text: " And you took "+document.querySelector('.timer').innerHTML,
+          icon: "success",
+          button:"Try Again!",
+          // $('button.tryAgain').click(reset())
+        }).then( document.querySelector('.swal-button','.swal-button--confirm').addEventListener('click',function(){
+           reset();
+        }));
+
+      }
+    },300)
+  };
 
 /*
 * Moves counter function
@@ -193,7 +197,7 @@ let liveTimer,
     totalSeconds = 0;
 
 // Set the default value to the timer's container
-timerContainer.innerHTML = totalSeconds + 's';
+timerContainer.innerHTML = totalSeconds + ' secs';
 
 /*
  * We call this function to start our function,
@@ -205,7 +209,7 @@ timerContainer.innerHTML = totalSeconds + 's';
         // Increase the totalSeconds by 1
         totalSeconds++;
         // Update the HTML Container with the new time
-        timerContainer.innerHTML = totalSeconds + 's';
+        timerContainer.innerHTML = totalSeconds + ' secs';
     }, 1000);
 }
 
@@ -240,9 +244,20 @@ function reset() {
     isFirstClick = true;
     totalSeconds = 0;
     timerContainer.innerHTML = totalSeconds + "s";
+    // Delete all cards.
+    cardsContainer.innerHTML="";
+    // initialize from the begenining.
+    init();
+    openCards = [];
+    // Reset Variables
+    shuffle(shuffledCards);
+    matchedCards=[];
+    moves = 0;
+    movesContainer.innerHTML = moves;
+    rating();
 }
 
 
 // ///////// start the Game for first time.
-shuffle(arr2);
+shuffle(shuffledCards);
 init();
