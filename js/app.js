@@ -135,17 +135,17 @@ function rating(){
 
     case 1 :
     starsContainer.innerHTML = star + star + star;
-    starsNumber = 3;
+    starsNumber = "3 stars";
     break;
 
     case 20:
       starsContainer.innerHTML = star + star;
-      starsNumber = 2;
+      starsNumber = "2 stars";
       break;
 
     case 26:
       starsContainer.innerHTML = star;
-      starsNumber = 1;
+      starsNumber = "1 star";
   }
 };
 
@@ -160,7 +160,7 @@ function isOver(){
         stopTimer();
         // popup Window
         swal({
-          title: "Good Job! You Made "+document.querySelector('span').innerHTML+" Moves To Complete the game. "+ "you got "+starsNumber+" star",
+          title: "Good Job! You Made "+document.querySelector('span').innerHTML+" Moves To Complete the game. "+ "you got "+starsNumber,
           text: " And you took "+document.querySelector('.timer').innerHTML,
           icon: "success",
           button:"Try Again!",
